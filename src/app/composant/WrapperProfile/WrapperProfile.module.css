@@ -1,0 +1,73 @@
+/* Conversation banner */
+.wrapper {
+	padding: 32px 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+.conversationBanner {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #ffffff;
+	border-radius: 12px;
+	padding: 20px 24px;
+}
+
+.conversationText {
+	font-size: 14px;
+	color: #1a1a1a;
+	margin: 0;
+}
+
+.conversationButton {
+	background-color: #2f3bff;
+	color: #ffffff;
+	font-size: 14px;
+	text-decoration: none;
+	padding: 10px 20px;
+	border-radius: 8px;
+	white-space: nowrap;
+}
+
+/* Profile card */
+.profileCard {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #ffffff;
+	border-radius: 12px;
+	padding: 20px 24px;
+}
+
+.distanceLabel {
+	font-size: 14x;
+	font-weight: 400;
+	font-family: "Inter";
+	color: #707070;
+	margin: 0;
+}
+
+.distanceBadge {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 28px 27px;
+	gap: 19px;
+	width: auto;
+	height: 90px;
+	background: #0b23f4;
+	border: 1px solid #0b23f4;
+	border-radius: 10px;
+}
+
+.distanceValue {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+	line-height: 27px;
+	color: #ffffff;
+}

@@ -1,0 +1,51 @@
+/* login.module.css */
+
+.container {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	background-color: #f2f4fa;
+}
+
+/* Left side: contains logo + form card */
+.leftPanel {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 40px;
+	/* removed align-items and justify-content: center so children can be positioned independently */
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+
+	height: 24px;
+	background-color: #f4f5fa;
+	/* stays at the top of leftPanel by default flow */
+}
+
+/* Right side: full image banner */
+.rightPanel {
+	flex: 1;
+	position: relative;
+	background-image: url("/images/login-img.jpg");
+	background-size: cover;
+	background-position: center;
+}
+
+.banner {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	background-color: #fff;
+	border-radius: 12px;
+	padding: 10px 14px;
+	font-size: 11px;
+	font-weight: 500;
+	max-width: 220px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	color: #0b23f4;
+	line-height: 1.4;
+}

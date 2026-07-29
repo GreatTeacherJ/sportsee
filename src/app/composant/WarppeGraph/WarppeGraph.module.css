@@ -1,0 +1,20 @@
+/* Section titles */
+.sectionTitle {
+	font-size: 15px;
+	font-weight: 600;
+	color: #1a1a1a;
+	margin: 0 0 16px 0;
+}
+
+/* Performances section */
+.performancesGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+}
+
+.chartCard {
+	background-color: #ffffff;
+	border-radius: 12px;
+	min-height: 280px;
+}
