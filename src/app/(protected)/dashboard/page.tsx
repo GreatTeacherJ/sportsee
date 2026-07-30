@@ -5,8 +5,8 @@ import Header from "@/app/composant/header/header";
 import Footer from "@/app/composant/Footer/Footer";
 import WarppeProfil from "@/app/composant/WrapperProfile/WrapperProfile";
 import WarpperGraph from "@/app/composant/WarppeGraph/WarppeGraph";
-import { contextApi } from "@/contexts/context";
-import { useContext } from "react";
+
+import WeekInfo from "@/app/composant/WeekInfo/WeekInfo";
 
 export default function Dashboard() {
 	return (
@@ -21,6 +21,7 @@ export default function Dashboard() {
 				<WarpperGraph />
 
 				{/* Weekly summary section */}
+				<WeekInfo />
 			</main>
 
 			<Footer />

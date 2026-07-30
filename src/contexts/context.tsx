@@ -1,11 +1,12 @@
 "use client";
-import type { TypeProfile, TypeStatisitcs, TypeUserInfo } from "@/types/apiTypes";
+import type { TypeProfile, TypeStatisitcs, TypeUserActivity } from "@/types/apiTypes";
 
 import { useContext, createContext, Context } from "react";
 
 export interface TypeContextApi {
 	profile: TypeProfile | null;
 	statistics: TypeStatisitcs | null;
+	userActivity: TypeUserActivity | null;
 }
 
 export const contextApi = createContext<TypeContextApi | undefined>(undefined);

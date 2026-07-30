@@ -1,12 +1,13 @@
 "use client";
 
+import { getStatUserActivity } from "@/utils/utilsAPI";
 import styles from "./WrapperStats.module.css";
 import { useContexteAPI, contextApi } from "@/contexts/context";
 
 export default function WrapperStats() {
-	const { profile, statistics } = useContexteAPI(contextApi);
+	const { profile, userActivity } = useContexteAPI(contextApi);
 
-	if (!profile || !statistics) {
+	if (!profile || !userActivity) {
 		return <p>Loading...</p>;
 	}
 
@@ -18,8 +19,11 @@ export default function WrapperStats() {
 		year: "numeric",
 	}).format(date);
 
-	const totalHoureDuration = Math.trunc(statistics.totalDuration / 60);
-	const totalMinuteDuration = statistics.totalDuration % 60;
+	const { totalDistance, totalDuration, totalBurned, nbrSessions, daysOff } =
+		getStatUserActivity(userActivity);
+
+	const totalHoureDuration = Math.trunc(totalDuration / 60);
+	const totalMinuteDuration = totalDuration % 60;
 
 	return (
 		<div className={styles.rightColumn}>
@@ -38,28 +42,31 @@ export default function WrapperStats() {
 				<div className={styles.statCard}>
 					<p className={styles.statLabel}>Calories brûlées</p>
 					<p className={styles.statValue}>
-						25000 <span className={styles.statUnit}>cal</span>
+						{totalBurned}
+						<span className={styles.statUnit}>cal</span>
 					</p>
 				</div>
 
 				<div className={styles.statCard}>
 					<p className={styles.statLabel}>Distance totale parcourue</p>
 					<p className={styles.statValue}>
-						312 <span className={styles.statUnit}>km</span>
+						{totalDistance} <span className={styles.statUnit}>km</span>
 					</p>
 				</div>
 
 				<div className={styles.statCard}>
 					<p className={styles.statLabel}>Nombre de jours de repos</p>
 					<p className={styles.statValue}>
-						9 <span className={styles.statUnit}>jours</span>
+						{daysOff}
+						<span className={styles.statUnit}>jours</span>
 					</p>
 				</div>
 
 				<div className={styles.statCard}>
 					<p className={styles.statLabel}>Nombre de sessions</p>
 					<p className={styles.statValue}>
-						41 <span className={styles.statUnit}>sessions</span>
+						{nbrSessions}
+						<span className={styles.statUnit}>sessions</span>
 					</p>
 				</div>
 			</div>

@@ -1,6 +1,12 @@
-//Import test data from mock.json
-import data from "@/mock.json";
-import type { TypeProfile, TypeStatisitcs, TypeUserInfo } from "@/types/apiTypes";
+import data from "../mock.json";
+import userActivity from "../AllUserActivity.json";
+import type {
+	TypeProfile,
+	TypeStatisitcs,
+	TypeUserInfo,
+	TypeUserActivity,
+	TypeUserStatistics,
+} from "@/types/apiTypes";
 
 // Get a message corresponding to the response status
 export function responseStatus(responseStatus: number): string {
@@ -38,4 +44,32 @@ export async function getApiUserInfo(): Promise<TypeUserInfo> {
 	const statistics: TypeStatisitcs = userInfo.statistics;
 
 	return { profile, statistics };
+}
+
+export async function getApiUserActivity(): Promise<TypeUserActivity> {
+	return userActivity;
+}
+
+export function getStatUserActivity(userActivity: TypeUserActivity): TypeUserStatistics {
+	let totalDistance = 0;
+
+	let totalDuration = 0;
+	let totalBurned = 0;
+	const nbrSessions = userActivity.length;
+
+	const startDay = new Date(userActivity[0].date) ?? new Date();
+	//`userActivity.at(-1)` can return `undefined`; we have handled this case and return the startDay.
+	const lastDay = new Date(userActivity.at(-1)?.date ?? startDay);
+
+	const daysOff =
+		(lastDay.getTime() - startDay.getTime()) / (1000 * 60 * 60 * 24) -
+		userActivity.length;
+	console.log(daysOff);
+
+	for (const session of userActivity) {
+		totalDistance += session.distance;
+		totalDuration += session.duration;
+		totalBurned += session.caloriesBurned;
+	}
+	return { totalDistance, totalDuration, totalBurned, nbrSessions, daysOff };
 }
