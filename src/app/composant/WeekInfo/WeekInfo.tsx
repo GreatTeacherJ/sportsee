@@ -1,3 +1,4 @@
+import GraphObjective from "../GraphObjective/GraphObjective";
 import styles from "./WeekInfo.module.css";
 
 export default function WeekInfo() {
@@ -8,7 +9,9 @@ export default function WeekInfo() {
 
 			<div className={styles.weekGrid}>
 				{/* Chart placeholder 3 (donut) */}
-				<div className={styles.chartCard}></div>
+				<div className={styles.chartCard}>
+					<GraphObjective />
+				</div>
 
 				{/* Stats cards */}
 				<div className={styles.statsColumn}>

@@ -1,0 +1,62 @@
+.card {
+	width: 100%;
+	padding: 24px 28px;
+	background-color: #ffffff;
+	border-radius: 24px;
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+	font-family: "Inter", sans-serif;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.title {
+	font-size: 22px;
+	font-weight: 700;
+	color: #4f5bf5;
+	margin: 0;
+}
+
+/* container holding both arrow buttons + date text */
+.datePicker {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+/* each arrow is its own circular button, not a shared pill */
+.arrowButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	background: none;
+	border: 1px solid #d1d5db;
+	border-radius: 50%;
+	cursor: pointer;
+	color: #6b7280;
+	padding: 0;
+	flex-shrink: 0;
+}
+
+.dateRange {
+	font-size: 13px;
+	color: #374151;
+	white-space: nowrap;
+}
+
+.subtitle {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 6px 0 0 0;
+}
+
+.chartContainer {
+	margin-top: 20px;
+	min-height: 320px;
+	/* empty placeholder, your chart component will go here */
+}
