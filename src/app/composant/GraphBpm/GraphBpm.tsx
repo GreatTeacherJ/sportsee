@@ -8,19 +8,81 @@ import {
 	CartesianGrid,
 	ResponsiveContainer,
 } from "recharts";
+import { contextApi, useContexteAPI } from "@/contexts/context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { formattedDate } from "@/utils/utilsAPI";
+
+interface DataBpm {
+	day: string;
+	min: number;
+	max: number;
+	avg: number;
+}
+
+type DataGraph = DataBpm[];
 
 export default function GraphBpm() {
-	const data = [
-		{ day: "Lun", min: 139, max: 175, avg: 167 },
-		{ day: "Mar", min: 141, max: 180, avg: 170 },
-		{ day: "Mer", min: 145, max: 186, avg: 173 },
-		{ day: "Jeu", min: 141, max: 178, avg: 167 },
-		{ day: "Ven", min: 137, max: 170, avg: 170 },
-		{ day: "Sam", min: 145, max: 165, avg: 157 },
-		{ day: "Dim", min: 137, max: 180, avg: 168 },
-	];
+	const [startId, setStartId] = useState(0);
+	const { userActivity } = useContexteAPI(contextApi);
 
-	function displayGraph() {
+	if (!userActivity) {
+		return <p>Loarding...</p>;
+	}
+
+	const data = [];
+
+	//if userActivity  it's a not four week, we display the maxumum lenght of userActivity
+	let maxDisplayweek = 7;
+	if (userActivity.length < 7) {
+		maxDisplayweek = userActivity.length;
+	}
+
+	const startDate = userActivity[startId].date;
+	const endIndex = Math.min(startId + maxDisplayweek - 1, userActivity.length - 1);
+	const endDate = userActivity[endIndex].date;
+	let bpm = 0;
+	//Extract all the data for each week and add it to the data table intended for the chart.
+	for (let i = startId; i < startId + maxDisplayweek; i++) {
+		const session = userActivity[i];
+
+		if (!session) {
+			continue;
+		}
+
+		const dateString = userActivity[i].date;
+		const date = new Date(dateString);
+
+		// 'short' gives abbreviated form, but length varies by locale (not guaranteed to be 3 chars)
+		const dayShort = date.toLocaleDateString("fr-FR", { weekday: "short" });
+		bpm += userActivity[i].heartRate.min + userActivity[i].heartRate.max;
+		data.push({
+			day: dayShort,
+			min: userActivity[i].heartRate.min,
+			max: userActivity[i].heartRate.max,
+			avg: userActivity[i].heartRate.average,
+		});
+	}
+	const averageBpm = Math.round(bpm / (maxDisplayweek * 2));
+	//function click button right
+	function handdleRight() {
+		if (startId === userActivity!.length - 1) {
+			return;
+		}
+
+		setStartId((startId) => startId + 1);
+	}
+
+	//function click button left
+	function handdleLeft() {
+		if (startId < 1) {
+			return;
+		}
+
+		setStartId((startId) => startId - 1);
+	}
+	function displayGraph(data: DataGraph) {
 		return (
 			<ResponsiveContainer width="100%" height={320}>
 				<ComposedChart
@@ -73,47 +135,52 @@ export default function GraphBpm() {
 		);
 	}
 
+	console.log(`
+	startdate 	:${startDate}
+	enddate		:${endDate}
+	bpmaverage	:${averageBpm}
+	`);
+
 	return (
 		<div className={styles.card}>
 			<div className={styles.header}>
 				<div className={styles.titleGroup}>
-					<h1 className={styles.title}>163 BPM</h1>
-					<p className={styles.subtitle}>Fréquence cardiaque moyenne</p>
+					<h1 className={styles.title}>{averageBpm}BPM</h1>
+					<p className={styles.subtitle}>
+						Fréquence cardiaque moyenne des 7 dérniére séssions
+					</p>
 				</div>
 
 				<div className={styles.datePicker}>
 					<button
 						className={styles.arrowButton}
-						aria-label="Semaine précédente"
+						aria-label="Session précédente"
+						onClick={handdleLeft}
 					>
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-							<path
-								d="M15 18l-6-6 6-6"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
+						<FontAwesomeIcon
+							icon={faChevronLeft}
+							style={{ color: "rgb(30, 48, 80)" }}
+						/>
 					</button>
 
-					<span className={styles.dateRange}>28 mai - 04 juin</span>
+					<span className={styles.dateRange}>
+						{formattedDate(startDate)}- {formattedDate(endDate)}
+					</span>
 
-					<button className={styles.arrowButton} aria-label="Semaine suivante">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-							<path
-								d="M9 18l6-6-6-6"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
+					<button
+						className={styles.arrowButton}
+						aria-label="Session suivante"
+						onClick={handdleRight}
+					>
+						<FontAwesomeIcon
+							icon={faChevronRight}
+							style={{ color: "rgb(30, 48, 80)" }}
+						/>
 					</button>
 				</div>
 			</div>
 
-			<div className={styles.chartContainer}>{displayGraph()}</div>
+			<div className={styles.chartContainer}>{displayGraph(data)}</div>
 
 			<div className={styles.legend}>
 				<div className={styles.legendItem}>
@@ -126,7 +193,7 @@ export default function GraphBpm() {
 				</div>
 				<div className={styles.legendItem}>
 					<span className={`${styles.dot} ${styles.dotAvg}`}></span>
-					<span>Max BPM</span>
+					<span>Moyenne BPM</span>
 				</div>
 			</div>
 		</div>

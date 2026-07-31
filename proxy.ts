@@ -5,7 +5,10 @@ import type { NextRequest } from "next/server"; //utiliser uniquement pour le ty
 //  elle doit ce nommer comme ce ceci elle récupera les
 // requests avant que les pages ne soit rendu
 export async function proxy(request: NextRequest) {
-	return NextResponse.next();
+	// Skip auth check in development to speed up local iteration
+	if (process.env.NODE_ENV === "development") {
+		return NextResponse.next();
+	}
 	//récuperation du token qui s'apelle "token
 	const token = request.cookies.get("token");
 

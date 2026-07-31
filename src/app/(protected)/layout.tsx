@@ -1,14 +1,20 @@
 "use client";
 
 import { contextApi } from "@/contexts/context";
-import { getApiUserInfo, getApiUserActivity } from "@/utils/utilsAPI";
-import type { TypeProfile, TypeStatisitcs, TypeUserActivity } from "@/types/apiTypes";
-import { useEffect, useState } from "react";
+import { getApiUserInfo, getApiUserActivity, getDataGraph } from "@/utils/utilsAPI";
+import type {
+	TypeProfile,
+	TypeStatisitcs,
+	TypeUserActivity,
+	TypeDatasGraph,
+} from "@/types/apiTypes";
+import { useEffect, useState, useMemo } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const [profile, setProfile] = useState<TypeProfile | null>(null);
 	const [statistics, setStatistics] = useState<TypeStatisitcs | null>(null);
 	const [userActivity, setUserActivity] = useState<TypeUserActivity | null>(null);
+	const [dataGraph, setDataGraph] = useState<TypeDatasGraph | null>(null);
 
 	useEffect(() => {
 		async function getData() {
@@ -17,20 +23,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			setStatistics(statistics);
 			const userActivity = await getApiUserActivity();
 			setUserActivity(userActivity);
+			setDataGraph(getDataGraph(userActivity));
 		}
 
 		getData();
 	}, []);
 
+	const contextValue = useMemo(
+		() => ({
+			profile,
+			statistics,
+			userActivity,
+			dataGraph,
+		}),
+		[profile, statistics, userActivity, dataGraph],
+	);
+
 	return (
-		<contextApi.Provider
-			value={{
-				profile: profile,
-				statistics: statistics,
-				userActivity: userActivity,
-			}}
-		>
-			{" "}
+		<contextApi.Provider value={contextValue}>
 			<>{children}</>
 		</contextApi.Provider>
 	);

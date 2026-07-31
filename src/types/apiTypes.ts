@@ -19,7 +19,7 @@ export interface TypeStatisitcs {
 	totalDuration: number;
 }
 
-interface TypeSession {
+export interface TypeSession {
 	date: string;
 	distance: number;
 	duration: number;
@@ -39,4 +39,13 @@ export interface TypeUserStatistics {
 	totalBurned: number;
 	nbrSessions: number;
 	daysOff: number;
+}
+
+export type TypeDatasGraph = TypeDataGraph[];
+
+export interface TypeDataGraph {
+	week: string; //S1, s2 s3 ....
+	sessions: TypeSession[];
+	startWeek: string;
+	endWeek: string;
 }

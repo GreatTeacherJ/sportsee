@@ -1,5 +1,10 @@
 "use client";
-import type { TypeProfile, TypeStatisitcs, TypeUserActivity } from "@/types/apiTypes";
+import type {
+	TypeProfile,
+	TypeStatisitcs,
+	TypeUserActivity,
+	TypeDatasGraph,
+} from "@/types/apiTypes";
 
 import { useContext, createContext, Context } from "react";
 
@@ -7,6 +12,7 @@ export interface TypeContextApi {
 	profile: TypeProfile | null;
 	statistics: TypeStatisitcs | null;
 	userActivity: TypeUserActivity | null;
+	dataGraph: TypeDatasGraph | null;
 }
 
 export const contextApi = createContext<TypeContextApi | undefined>(undefined);
