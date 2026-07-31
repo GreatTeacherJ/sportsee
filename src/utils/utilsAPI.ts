@@ -9,47 +9,132 @@ import type {
 	TypeDatasGraph,
 	TypeSession,
 } from "@/types/apiTypes";
+import Cookies from "js-cookie";
+import { redirect } from "next/navigation";
 
 // Get a message corresponding to the response status
 export function responseStatus(responseStatus: number): string {
 	//on gére selon le status
 	switch (responseStatus) {
-		case 200:
-			return "";
+		case 403:
+			return "Identification impossible";
 
-			break;
 		case 400:
 			return "Nom d'utilisateur ou mot de passe incorecte";
-			break;
-		case 401 | 403:
-			return "Identification impossable";
-			break;
+
+		case 401:
+			return "Identification impossible";
+
 		case 404:
 			return "Ressource non trouvées";
-			break;
+
 		case 500:
 			return "Une érreur serveur est intérvenue, veuillez réésayer plus tard";
-			break;
 
 		default:
 			return "Une érreur inconue est intérvenue, veuillez réésayer plus tard";
-			break;
 	}
 }
 
 //Retrieving user information via the API
 export async function getApiUserInfo(): Promise<TypeUserInfo> {
-	const userInfo: TypeUserInfo = data["api/user-info"];
+	const token = Cookies.get("token");
 
-	const profile: TypeProfile = userInfo.profile;
+	// no token means the user isn't authenticated: no point calling the API
+	if (!token) {
+		throw new Error("No authentication token found");
+	}
 
-	const statistics: TypeStatisitcs = userInfo.statistics;
+	try {
+		const response = await fetch("http://localhost:8000/api/user-info", {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-	return { profile, statistics };
+		if (!response.ok) {
+			// covers expired/invalid token (401), forbidden (403), server errors (5xx)
+			throw new Error(`Failed to fetch user info: ${response.status}`);
+		}
+
+		const userInfo: TypeUserInfo = await response.json();
+
+		const profile: TypeProfile = userInfo.profile;
+		const statistics: TypeStatisitcs = userInfo.statistics;
+
+		return { profile, statistics };
+	} catch (error) {
+		console.error("Error fetching user info:", error);
+		throw error; // let error.tsx handle the display
+	}
 }
 
-export async function getApiUserActivity(): Promise<TypeUserActivity> {
-	return userActivity;
+export async function getApiImage(filename: string | null): Promise<string | null> {
+	if (!filename) {
+		return null;
+	}
+	console.log("nom du fichier", filename);
+	try {
+		const response = await fetch(filename);
+
+		// fetch doesn't throw on HTTP error status (404, 500...), only on network failure
+		// so we must check response.ok manually
+		if (!response.ok) {
+			throw new Error(
+				`Failed to fetch image: ${response.status} ${response.statusText}`,
+			);
+		}
+
+		const blob = await response.blob();
+
+		// ATTENTION: Don't forget to delete the ObjectUrl upon logout
+		// otherwise, there is a risk of a memory leak
+		const avatarUrl = URL.createObjectURL(blob);
+
+		return avatarUrl;
+	} catch (error) {
+		// Log for debugging: distinguish network error vs HTTP error vs blob parsing error
+		console.error(`Error loading avatar image "${filename}":`, error);
+
+		// Return a fallback so calling code doesn't break (e.g. default avatar path)
+		return "/images/avatar.png";
+	}
+}
+
+export async function getApiUserActivity(createdAt: string): Promise<TypeUserActivity> {
+	const token = Cookies.get("token");
+
+	// no token means the user isn't authenticated: no point calling the API
+	if (!token) {
+		throw new Error("No authentication token found");
+	}
+
+	try {
+		// today's date
+		const endWeek = new Date().toISOString().split("T")[0];
+
+		const response = await fetch(
+			`http://localhost:8000/api/user-activity?startWeek=${createdAt}&endWeek=${endWeek}`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		if (!response.ok) {
+			throw new Error(`Failed to fetch user activity: ${response.status}`);
+		}
+
+		const userActivity: TypeUserActivity = await response.json();
+
+		return userActivity;
+	} catch (error) {
+		console.error("Error fetching user activity:", error);
+		throw error; // let error.tsx handle the display
+	}
 }
 
 export function getStatUserActivity(userActivity: TypeUserActivity): TypeUserStatistics {

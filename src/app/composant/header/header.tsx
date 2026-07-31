@@ -3,9 +3,36 @@
 import styles from "./header.module.css";
 import Link from "next/link";
 import { contextApi, useContexteAPI } from "@/contexts/context";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
-	const { profile } = useContexteAPI(contextApi);
+	const { profile, avatarUrl } = useContexteAPI(contextApi);
+
+	let idActive = 0;
+	const pathname = usePathname();
+
+	switch (true) {
+		case pathname.startsWith("/dashboard"):
+			idActive = 1;
+			break;
+		case pathname.startsWith("/coachia"):
+			idActive = 2;
+			break;
+		case pathname.startsWith("/profil"):
+			idActive = 3;
+			break;
+		default:
+			idActive = 0;
+			break;
+	}
+
+	console.log("idactive: ", idActive);
+
+	function handdleDisconnect() {
+		if (avatarUrl) {
+			URL.revokeObjectURL(avatarUrl);
+		}
+	}
 
 	return (
 		<header className={styles.header}>
@@ -14,18 +41,36 @@ export default function Header() {
 				<ul className={styles.navList}>
 					{/* active page gets a distinct class for bold styling */}
 					<Link href={`/dashboard/${profile?.firstName}`}>
-						<li className={styles.navItemActive}>Dashboard</li>
+						<span
+							className={
+								idActive === 1 ? styles.navItemActive : styles.navItem
+							}
+						>
+							Dashboard
+						</span>
 					</Link>
 					<Link href={"/coachai"}>
-						<li className={styles.navItem}>Coach AI</li>
+						<span
+							className={
+								idActive === 2 ? styles.navItemActive : styles.navItem
+							}
+						>
+							Coach AI
+						</span>
 					</Link>
 					<Link href={`/profil/${profile?.firstName}`}>
-						<li className={styles.navItem}>Mon profil</li>
+						<span
+							className={
+								idActive === 3 ? styles.navItemActive : styles.navItem
+							}
+						>
+							Mon profil
+						</span>
 					</Link>
 				</ul>
 
 				<span className={styles.separator}></span>
-				<Link href={"/login"}>
+				<Link href={"/login"} onClick={handdleDisconnect}>
 					<p className={styles.logout}>Se déconnecter</p>
 				</Link>
 			</nav>

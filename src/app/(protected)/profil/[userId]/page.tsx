@@ -7,16 +7,16 @@ import WrapperStats from "@/app/composant/WrapperStats/WrapperStats";
 export default function Profil() {
 	return (
 		<div className={styles.page}>
-			<Header />
+			<div className={styles.main}>
+				<Header />
+				<main className={styles.container}>
+					{/* Left column: profile photo + info */}
+					<InfoProfil />
 
-			<main className={styles.main}>
-				{/* Left column: profile photo + info */}
-				<InfoProfil />
-
-				{/* Right column: statistics */}
-				<WrapperStats />
-			</main>
-
+					{/* Right column: statistics */}
+					<WrapperStats />
+				</main>
+			</div>
 			<Footer />
 		</div>
 	);

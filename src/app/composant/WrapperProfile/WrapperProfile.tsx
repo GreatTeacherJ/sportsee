@@ -28,7 +28,7 @@ export default function WarppeProfil() {
 				<p className={styles.distanceLabel}>Distance totale parcourue</p>
 
 				<div className={styles.distanceBadge}>
-					<img src="images/OUTLINE.png" alt="icone" />
+					<img src="/images/OUTLINE.png" alt="icone" />
 					<span className={styles.distanceValue}>
 						{parseInt(statistics.totalDistance)} km
 					</span>

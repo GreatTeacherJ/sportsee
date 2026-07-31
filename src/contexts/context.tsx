@@ -7,12 +7,14 @@ import type {
 } from "@/types/apiTypes";
 
 import { useContext, createContext, Context } from "react";
+import { SetStateAction, Dispatch } from "react";
 
 export interface TypeContextApi {
 	profile: TypeProfile | null;
 	statistics: TypeStatisitcs | null;
 	userActivity: TypeUserActivity | null;
 	dataGraph: TypeDatasGraph | null;
+	avatarUrl: string | null;
 }
 
 export const contextApi = createContext<TypeContextApi | undefined>(undefined);

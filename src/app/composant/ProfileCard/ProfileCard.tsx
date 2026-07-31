@@ -2,7 +2,7 @@ import styles from "./ProfileCard.module.css";
 import { useContexteAPI, contextApi } from "@/contexts/context";
 
 export default function ProfileCard() {
-	const { profile } = useContexteAPI(contextApi);
+	const { profile, avatarUrl } = useContexteAPI(contextApi);
 
 	if (!profile) {
 		return <p>loading ...</p>;
@@ -20,8 +20,8 @@ export default function ProfileCard() {
 	return (
 		<div className={styles.profileInfo}>
 			<img
-				src={profile.profilePicture}
-				alt="Clara Dupont"
+				src={avatarUrl ? avatarUrl : "/images/avatar.png"}
+				alt={`${profile.firstName} ${profile.lastName}`}
 				className={styles.profilePhoto}
 			/>
 			<div>

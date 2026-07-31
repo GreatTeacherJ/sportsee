@@ -5,15 +5,15 @@ import Header from "@/app/composant/header/header";
 import Footer from "@/app/composant/Footer/Footer";
 import WarppeProfil from "@/app/composant/WrapperProfile/WrapperProfile";
 import WarpperGraph from "@/app/composant/WarppeGraph/WarppeGraph";
-import { contextApi, useContexteAPI } from "@/contexts/context";
 import WeekInfo from "@/app/composant/WeekInfo/WeekInfo";
+import { useContexteAPI, contextApi } from "@/contexts/context";
+import { useEffect } from "react";
 
 export default function Dashboard() {
 	return (
 		<div className={styles.page}>
-			<Header />
-
 			<main className={styles.main}>
+				<Header />
 				{/* Conversation prompt banner and header profil */}
 				<WarppeProfil />
 

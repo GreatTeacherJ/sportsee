@@ -4,46 +4,57 @@ import styles from "./LoginFrom.module.css";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { responseStatus } from "@/utils/utilsAPI";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginFrom() {
 	const [responseApi, setResponseAPI] = useState<string>("");
+	const rooter = useRouter();
 
-	async function handlleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+	async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault();
 
-		//on recupére le formulaire envoyer par event
 		const form = new FormData(e.currentTarget);
+		//const userName = form.get("username");
+		//const password = form.get("password");
 
-		//on récupére les infos
-		const userName = form.get("username");
-		const password = form.get("password");
+		const password = "password789";
+		const userName = "emmaleroy";
 
-		//requete api pour login
-		const response = await fetch("http://localhost:8000/api/login", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			//Ne pas oublier JSON.stringify() pour transformer l'objet JSON en texte
-			body: JSON.stringify({
-				username: userName,
-				password: password,
-			}),
-		});
+		try {
+			const response = await fetch("http://localhost:8000/api/login", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ username: userName, password: password }),
+			});
 
-		//recupération des données en JSON avec .json()
-		const data = await response.json();
+			console.log("etape 1");
 
-		if (!response.ok) {
-			setResponseAPI(responseStatus(response.status));
-			return;
+			// check response.ok BEFORE parsing JSON: avoids crashing on non-JSON error bodies
+			if (!response.ok) {
+				setResponseAPI(responseStatus(response.status));
+				return;
+			}
+			console.log("etape 2");
+
+			// .json() can still throw if body is malformed even on a 200 response
+			const data = await response.json();
+			console.log("etape 3");
+			if (!data.token) {
+				// defensive check: API contract violation (200 OK but no token)
+				setResponseAPI("Unexpected server response");
+				return;
+			}
+			console.log("etape 4");
+			Cookies.set("token", data.token, { expires: 0.04 });
+			console.log("etape 5");
+			rooter.push(`/profil/${userName}`);
+			console.log("etape 6");
+			// verify this is valid in your client component context
+		} catch (error) {
+			// catches network failures and JSON parsing errors
+			console.error("Login failed:", error);
+			setResponseAPI("Network or server error, please try again");
 		}
-
-		//on récupére le token
-		const token = data.token;
-		//on l'enregistre dans un cookies, 1 heure max
-		Cookies.set("token", token, { expires: 0.04 });
-
-		redirect("/profil");
 	}
 
 	return (
@@ -56,7 +67,7 @@ export default function LoginFrom() {
 
 			<h2 className={styles.subtitle}>Se connecter</h2>
 
-			<form className={styles.form} onSubmit={handlleSubmit}>
+			<form className={styles.form} onSubmit={handleSubmit}>
 				<div className={styles.field}>
 					<label className={styles.label}>Nom d'utilisateur</label>
 					<input

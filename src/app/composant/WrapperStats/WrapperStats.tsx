@@ -50,7 +50,8 @@ export default function WrapperStats() {
 				<div className={styles.statCard}>
 					<p className={styles.statLabel}>Distance totale parcourue</p>
 					<p className={styles.statValue}>
-						{totalDistance} <span className={styles.statUnit}>km</span>
+						{totalDistance.toFixed(2)}
+						<span className={styles.statUnit}>km</span>
 					</p>
 				</div>
 
