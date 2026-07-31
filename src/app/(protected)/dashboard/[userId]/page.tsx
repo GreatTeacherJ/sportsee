@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "@/app/(protected)/dashboard/dashboard.module.css";
+import styles from "@/app/(protected)/dashboard/[userId]/dashboard.module.css";
 import Header from "@/app/composant/header/header";
 import Footer from "@/app/composant/Footer/Footer";
 import WarppeProfil from "@/app/composant/WrapperProfile/WrapperProfile";
