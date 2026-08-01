@@ -1,0 +1,33 @@
+// scripts/create-page.js
+const fs = require("fs");
+const path = require("path");
+
+// get the route name from command line arguments (e.g. "node scripts/create-page.js login")
+const routeName = process.argv[2];
+
+if (!routeName) {
+	console.error("Usage: node scripts/create-page.js <route-name>");
+	process.exit(1);
+}
+
+const dirPath = path.join(__dirname, "..", "src", "app", routeName);
+
+// create the directory if it doesn't exist yet
+fs.mkdirSync(dirPath, { recursive: true });
+
+// minimal page.tsx boilerplate
+const pageContent = `import styles from "./${routeName}.module.css";
+
+export default function ${capitalize(routeName)}() {
+  return <div className={styles.container}></div>;
+}
+`;
+
+fs.writeFileSync(path.join(dirPath, "page.tsx"), pageContent);
+fs.writeFileSync(path.join(dirPath, `${routeName}.module.css`), "");
+
+console.log(`Created: src/app/${routeName}/page.tsx and ${routeName}.module.css`);
+
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}

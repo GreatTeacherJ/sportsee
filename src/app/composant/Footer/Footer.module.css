@@ -1,0 +1,30 @@
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 24px 40px;
+	background-color: #ffffff;
+}
+
+.copyright {
+	font-size: 14px;
+	color: #1a1a1a;
+	margin: 0;
+}
+
+.rightSection {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+}
+
+.link {
+	font-size: 14px;
+	color: #1a1a1a;
+	text-decoration: none;
+}
+
+.icon {
+	height: 16px;
+	width: auto;
+}

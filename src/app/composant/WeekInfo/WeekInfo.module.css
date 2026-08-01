@@ -1,0 +1,74 @@
+/* Week section */
+.weekDates {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+
+	color: #707070;
+
+	margin: 8px, auto;
+}
+
+.weekGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+	margin-top: 40px;
+}
+
+.statsColumn {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.statCard {
+	background-color: #ffffff;
+	border-radius: 12px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	height: 100px;
+	justify-content: center;
+	gap: 5px;
+}
+
+.statLabel {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	color: #707070;
+}
+
+.statValue {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+	color: var(--colortext);
+}
+
+.setUnit {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	color: var(--colortext);
+}
+
+.chartCard {
+	background-color: #ffffff;
+	border-radius: 12px;
+	min-height: 280px;
+}
+
+.sectionTitle {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+
+	color: #111111;
+}
