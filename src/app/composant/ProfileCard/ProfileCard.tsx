@@ -19,6 +19,7 @@ export default function ProfileCard() {
 
 	return (
 		<div className={styles.profileInfo}>
+			{/* eslint-disable-next-line @next/next/no-img-element -- avatarUrl is a blob URL, next/image cannot optimize blob: URLs */}
 			<img
 				src={avatarUrl ? avatarUrl : "/images/avatar.png"}
 				alt={`${profile.firstName} ${profile.lastName}`}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -13,7 +14,13 @@ export default function Footer() {
 					Contact
 				</a>
 				{/* Icon only, no text next to it here */}
-				<img src="/images/Icon.png" alt="SportSee icon" className={styles.icon} />
+				<Image
+					src="/images/Icon.png"
+					alt="SportSee icon"
+					className={styles.icon}
+					width={19}
+					height={21}
+				/>
 			</div>
 		</footer>
 	);

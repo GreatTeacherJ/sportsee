@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./header.module.css";
+import Image from "next/image";
 import Link from "next/link";
 import { contextApi, useContexteAPI } from "@/contexts/context";
 import { usePathname } from "next/navigation";
@@ -34,7 +35,13 @@ export default function Header() {
 
 	return (
 		<header className={styles.header}>
-			<img src="/images/Logo.png" alt="SportSee image" className={styles.logo} />
+			<Image
+				src="/images/Logo.png"
+				alt="SportSee image"
+				className={styles.logo}
+				width={157}
+				height={24}
+			/>
 			<nav className={styles.nav}>
 				<ul className={styles.navList}>
 					{/* active page gets a distinct class for bold styling */}

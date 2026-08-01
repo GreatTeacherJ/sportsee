@@ -1,4 +1,5 @@
 import styles from "@/app/composant/WrapperProfile/WrapperProfile.module.css";
+import Image from "next/image";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import { useContexteAPI, contextApi } from "@/contexts/context";
 import { getStatUserActivity } from "@/utils/utilsAPI";
@@ -58,7 +59,12 @@ export default function WarppeProfil() {
 				<p className={styles.distanceLabel}>Distance totale parcourue</p>
 
 				<div className={styles.distanceBadge}>
-					<img src="/images/OUTLINE.png" alt="icone" />
+					<Image
+						src="/images/OUTLINE.png"
+						alt="icone"
+						width={34}
+						height={34}
+					/>
 					<span className={styles.distanceValue}>
 						{totalDistances.toFixed(2)} km
 					</span>
