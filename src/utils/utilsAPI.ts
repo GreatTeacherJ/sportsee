@@ -74,7 +74,7 @@ export async function getApiImage(filename: string | null): Promise<string | nul
 	if (!filename) {
 		return null;
 	}
-	console.log("nom du fichier", filename);
+
 	try {
 		const response = await fetch(filename);
 
@@ -151,7 +151,6 @@ export function getStatUserActivity(userActivity: TypeUserActivity): TypeUserSta
 	const daysOff =
 		(lastDay.getTime() - startDay.getTime()) / (1000 * 60 * 60 * 24) -
 		userActivity.length;
-	console.log(daysOff);
 
 	for (const session of userActivity) {
 		totalDistance += session.distance;

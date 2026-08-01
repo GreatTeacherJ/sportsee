@@ -7,7 +7,6 @@ import type {
 } from "@/types/apiTypes";
 
 import { useContext, createContext, Context } from "react";
-import { SetStateAction, Dispatch } from "react";
 
 export interface TypeContextApi {
 	profile: TypeProfile | null;

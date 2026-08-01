@@ -26,8 +26,6 @@ export default function Header() {
 			break;
 	}
 
-	console.log("idactive: ", idActive);
-
 	function handdleDisconnect() {
 		if (avatarUrl) {
 			URL.revokeObjectURL(avatarUrl);

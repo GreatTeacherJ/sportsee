@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			dataGraph,
 			avatarUrl,
 		}),
-		[profile, statistics, userActivity, dataGraph],
+		[profile, statistics, userActivity, dataGraph, avatarUrl],
 	);
 
 	return (

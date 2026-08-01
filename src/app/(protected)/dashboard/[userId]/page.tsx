@@ -6,8 +6,6 @@ import Footer from "@/app/composant/Footer/Footer";
 import WarppeProfil from "@/app/composant/WrapperProfile/WrapperProfile";
 import WarpperGraph from "@/app/composant/WarppeGraph/WarppeGraph";
 import WeekInfo from "@/app/composant/WeekInfo/WeekInfo";
-import { useContexteAPI, contextApi } from "@/contexts/context";
-import { useEffect } from "react";
 
 export default function Dashboard() {
 	return (

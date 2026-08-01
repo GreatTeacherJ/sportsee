@@ -17,12 +17,46 @@ export default function WeekInfo() {
 				<div className={styles.statsColumn}>
 					<div className={styles.statCard}>
 						<p className={styles.statLabel}>Durée d'activité</p>
-						<p className={styles.statValue}>140 minutes</p>
+						<p>
+							<span
+								className={styles.statValue}
+								style={
+									{ "--colortext": "#0B23F4" } as React.CSSProperties
+								}
+							>
+								140
+							</span>
+							<span
+								className={styles.setUnit}
+								style={
+									{ "--colortext": "#B6BDFC" } as React.CSSProperties
+								}
+							>
+								minutes
+							</span>
+						</p>
 					</div>
 
 					<div className={styles.statCard}>
 						<p className={styles.statLabel}>Distance</p>
-						<p className={styles.statValue}>21.7 kilomètres</p>
+						<p>
+							<span
+								className={styles.statValue}
+								style={
+									{ "--colortext": "#F4320B" } as React.CSSProperties
+								}
+							>
+								21.7
+							</span>
+							<span
+								className={styles.setUnit}
+								style={
+									{ "--colortext": "#FCC1B6" } as React.CSSProperties
+								}
+							>
+								kilométres
+							</span>
+						</p>
 					</div>
 				</div>
 			</div>

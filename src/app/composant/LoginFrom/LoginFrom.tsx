@@ -27,28 +27,25 @@ export default function LoginFrom() {
 				body: JSON.stringify({ username: userName, password: password }),
 			});
 
-			console.log("etape 1");
-
 			// check response.ok BEFORE parsing JSON: avoids crashing on non-JSON error bodies
 			if (!response.ok) {
 				setResponseAPI(responseStatus(response.status));
 				return;
 			}
-			console.log("etape 2");
 
 			// .json() can still throw if body is malformed even on a 200 response
 			const data = await response.json();
-			console.log("etape 3");
+
 			if (!data.token) {
 				// defensive check: API contract violation (200 OK but no token)
 				setResponseAPI("Unexpected server response");
 				return;
 			}
-			console.log("etape 4");
+
 			Cookies.set("token", data.token, { expires: 0.04 });
-			console.log("etape 5");
+
 			rooter.push(`/profil/${userName}`);
-			console.log("etape 6");
+
 			// verify this is valid in your client component context
 		} catch (error) {
 			// catches network failures and JSON parsing errors

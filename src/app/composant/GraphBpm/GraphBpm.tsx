@@ -135,12 +135,6 @@ export default function GraphBpm() {
 		);
 	}
 
-	console.log(`
-	startdate 	:${startDate}
-	enddate		:${endDate}
-	bpmaverage	:${averageBpm}
-	`);
-
 	return (
 		<div className={styles.card}>
 			<div className={styles.header}>
