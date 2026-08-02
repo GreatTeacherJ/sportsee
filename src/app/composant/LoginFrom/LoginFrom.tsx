@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import styles from "./LoginFrom.module.css";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import { responseStatus } from "@/utils/utilsAPI";
+import { responseStatus } from "@/utils/utilsApi";
 import { useRouter } from "next/navigation";
 
 export default function LoginFrom() {

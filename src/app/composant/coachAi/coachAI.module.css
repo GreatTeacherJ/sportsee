@@ -1,16 +1,35 @@
 .modaleChat {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* offset by half its own size */
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 22px 33px;
 	gap: 40px;
 	background: #ffffff;
-	min-height: 100vh;
+
 	justify-content: space-between;
 	margin: 0;
 	border: none;
+	width: 60%;
+	height: 80vh;
+
+	border-radius: 20px;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
 	width: 100%;
-	max-width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex; /* activates flexbox */
+	align-items: center; /* centers .content vertically */
+	justify-content: center; /* centers .content horizontally */
 }
 
 .headerContainer {
@@ -18,8 +37,9 @@
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
+	align-self: flex-end;
 	padding: 0px;
-	width: 100%;
+	width: auto;
 	height: auto;
 }
 
@@ -44,8 +64,8 @@
 	align-items: flex-start;
 	padding: 0px;
 	gap: 40px;
-	padding: 0 200px;
 	width: 100%;
+	padding: 0 50px;
 }
 
 .chatMessages {
@@ -168,9 +188,8 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 0px 200px;
 	gap: 24px;
-
+	padding: 0, 50px;
 	width: 100%;
 	height: 257px;
 }

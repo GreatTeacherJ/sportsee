@@ -1,4 +1,4 @@
-import styles from "./GraphBpm.module.css";
+﻿import styles from "./GraphBpm.module.css";
 import {
 	ComposedChart,
 	Bar,
@@ -12,7 +12,7 @@ import { contextApi, useContexteAPI } from "@/contexts/context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { formattedDate } from "@/utils/utilsAPI";
+import { formattedDate } from "@/utils/utilsApi";
 
 interface DataBpm {
 	day: string;
@@ -141,14 +141,14 @@ export default function GraphBpm() {
 				<div className={styles.titleGroup}>
 					<h1 className={styles.title}>{averageBpm}BPM</h1>
 					<p className={styles.subtitle}>
-						Fréquence cardiaque moyenne des 7 dérniére séssions
+						FrÃ©quence cardiaque moyenne des 7 dÃ©rniÃ©re sÃ©ssions
 					</p>
 				</div>
 
 				<div className={styles.datePicker}>
 					<button
 						className={styles.arrowButton}
-						aria-label="Session précédente"
+						aria-label="Session prÃ©cÃ©dente"
 						onClick={handdleLeft}
 					>
 						<FontAwesomeIcon

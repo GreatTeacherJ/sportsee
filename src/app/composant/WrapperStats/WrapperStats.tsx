@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { getStatUserActivity } from "@/utils/utilsAPI";
+import { getStatUserActivity } from "@/utils/utilsApi";
 import styles from "./WrapperStats.module.css";
 import { useContexteAPI, contextApi } from "@/contexts/context";
 
@@ -40,7 +40,7 @@ export default function WrapperStats() {
 				</div>
 
 				<div className={styles.statCard}>
-					<p className={styles.statLabel}>Calories brûlées</p>
+					<p className={styles.statLabel}>Calories brÃ»lÃ©es</p>
 					<p className={styles.statValue}>
 						{totalBurned}
 						<span className={styles.statUnit}>cal</span>

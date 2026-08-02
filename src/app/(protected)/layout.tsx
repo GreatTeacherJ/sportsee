@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { contextApi } from "@/contexts/context";
 import {
@@ -6,7 +6,7 @@ import {
 	getApiUserActivity,
 	getDataGraph,
 	getApiImage,
-} from "@/utils/utilsAPI";
+} from "@/utils/utilsApi";
 import type {
 	TypeProfile,
 	TypeStatisitcs,
