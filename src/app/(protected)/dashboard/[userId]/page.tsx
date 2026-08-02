@@ -8,6 +8,7 @@ import WarpperGraph from "@/app/composant/WarppeGraph/WarppeGraph";
 import WeekInfo from "@/app/composant/WeekInfo/WeekInfo";
 import ModaleAi from "@/app/composant/coachAi/ModaleAi/modaleAi";
 import { useState } from "react";
+import Planning from "@/app/composant/planning/planning";
 
 export default function Dashboard() {
 	const [openCoach, setOpenCoach] = useState<boolean>(false);
@@ -32,6 +33,7 @@ export default function Dashboard() {
 
 				{/* Weekly summary section */}
 				<WeekInfo />
+				<Planning />
 			</main>
 
 			<Footer />

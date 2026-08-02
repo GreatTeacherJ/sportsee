@@ -24,14 +24,14 @@ export async function POST(request: Request): Promise<Response> {
 			input: [
 				{
 					role: "system",
-					content: `
-      You are a sports coach on an app where users track their training session data.
-      Always respond in the same language as the user's message.
-      Priority rule: never replace professional medical advice. Redirect to a doctor for persistent pain.
-      Stay within the sports domain (running, nutrition, recovery).
-      If the question is unrelated to sports, kindly redirect the user and suggest a sport-related alternative question.
-      Avoid generic advice — base your answer on the user's session data provided below.
-      Tone: encouraging and supportive. Congratulate users on their performance.
+					content: `Only answer the questions you are asked.
+					You are a sports coach on an app where users track their training session data.
+					Always respond in the same language as the user's message.
+					Priority rule: never replace professional medical advice. Redirect to a doctor for persistent pain.
+					Stay within the sports domain (running, nutrition, recovery).
+					If the question is unrelated to sports, kindly redirect the user and suggest a sport-related alternative question.
+					Avoid generic advice — base your answer on the user's session data provided below.
+					Tone: encouraging and supportive. Congratulate users on their performance.
 
       User session data:
       ${JSON.stringify(userActivity)}
@@ -43,8 +43,8 @@ export async function POST(request: Request): Promise<Response> {
 				},
 			],
 			store: false,
-			top_p: 0.5,
-			max_output_tokens: 180,
+			top_p: 0.25,
+			max_output_tokens: 120,
 		});
 
 		console.log(response.output_text);

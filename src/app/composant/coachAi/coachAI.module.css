@@ -177,16 +177,45 @@
 
 .messageContent {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
+	flex-direction: column; /* stack paragraphs, lists, etc. vertically */
+	align-items: flex-start; /* keep text aligned left instead of centered */
 	padding: 14px 20px;
 	gap: 10px;
-
+	color: #111111;
 	max-width: 600px;
 
 	background: #e7e7e7;
 	border-radius: 20px 20px 20px 0px;
 }
+
+/*Config markdown for response Ai*/
+.messageContent p {
+	margin: 0; /* remove default browser margin between paragraphs */
+}
+
+.messageContent strong {
+	font-weight: 600;
+	color: #333; /* make bold text stand out from the base gray */
+}
+
+.messageContent ul,
+.messageContent ol {
+	margin: 0;
+	padding-left: 20px; /* indent list markers */
+}
+
+.messageContent li {
+	margin-bottom: 4px;
+}
+
+.messageContent h1,
+.messageContent h2,
+.messageContent h3 {
+	font-size: 14px; /* keep headings proportionate to chat bubble text */
+	font-weight: 600;
+	margin: 4px 0;
+}
+/*========================================================*/
 
 .prompt {
 	display: flex;

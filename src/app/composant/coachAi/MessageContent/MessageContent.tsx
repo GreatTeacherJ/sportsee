@@ -1,16 +1,21 @@
 import styles from "../coachAi.module.css";
+import ReactMarkdown from "react-markdown";
+
+//<ReactMarkdown>{message.message}</ReactMarkdown>
 
 interface Response {
 	text: string;
 }
 
 export default function MessageContent({ text }: Response) {
+	// in MessageContent.tsx, temporarily
+	console.log(JSON.stringify(text));
 	return (
 		<li className={styles.responseAi}>
 			<div className={styles.messageContainer}>
 				<p>Coach Ai</p>
 				<div className={styles.messageContent}>
-					<p>{text}</p>
+					<ReactMarkdown>{text}</ReactMarkdown>
 				</div>
 			</div>
 		</li>

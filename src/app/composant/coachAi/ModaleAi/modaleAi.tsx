@@ -5,6 +5,8 @@ import ButtonTag from "../ButtonTag/ButtonTag";
 import freqientlyAsked from "../frequently_asked.json";
 import { useState, useEffect, useRef } from "react";
 import { Prompt } from "next/font/google";
+import { contextApi, useContexteAPI } from "@/contexts/context";
+import { getPrompt } from "@/utils/utilsAi";
 
 interface TypeModaleProps {
 	onClose: () => void;
@@ -19,36 +21,46 @@ type Prompt = Conversation[];
 
 export default function ModaleAi({ onClose }: TypeModaleProps) {
 	const [conversation, setConversation] = useState<Prompt>([]);
+	//pointe vers l'input area
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
+	const { userActivity } = useContexteAPI(contextApi);
+	//point vers la fin de la converstion pour scroller automatiquement
+	const endOfMessagesRef = useRef<HTMLLIElement>(null);
 
 	async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault();
+		try {
+			const message = textAreaRef.current?.value;
+			if (message) {
+				console.log("reçu message : ", message);
+				const prompt: Conversation = { messageOf: "user", message: message };
 
-		const message = textAreaRef.current?.value;
-		if (message) {
-			console.log("reçu message : ", message);
-			const prompt: Conversation = { messageOf: "user", message: message };
+				setConversation((conversation) => [...conversation, prompt]);
+				console.log("conversation : ", conversation);
 
-			setConversation((conversation) => [...conversation, prompt]);
-			console.log("conversation : ", conversation);
+				const response = await getPrompt(message, userActivity);
+				console.log("reponse reçu : ", response);
 
-			//Pour tester
-			const response: Conversation = {
-				messageOf: "ai",
-				message: "Voici ma superbe reponse de la mort qui tue",
-			};
-			setConversation((conversation) => [...conversation, response]);
-
-			console.log("conversation : ", conversation);
-
-			try {
-				// verify this is valid in your client component context
-			} catch (error) {
-				// catches network failures and JSON parsing errors
-				console.error("Login failed:", error);
+				if (typeof response !== "string" && !response) {
+					setConversation((conversation) => [
+						...conversation,
+						{
+							messageOf: "ai",
+							message: "Une erreur est survenue veuillez réésayer...",
+						},
+					]);
+				} else {
+					setConversation((conversation) => [
+						...conversation,
+						{ messageOf: "ai", message: response },
+					]);
+				}
+			} else {
+				return;
 			}
-		} else {
-			return;
+		} catch (error) {
+			// catches network failures and JSON parsing errors
+			console.error("Login failed:", error);
 		}
 
 		if (textAreaRef.current) {
@@ -57,7 +69,8 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 	}
 
 	useEffect(() => {
-		console.log(conversation);
+		// scroll to the bottom marker every time a new message is added
+		endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [conversation]);
 
 	useEffect(() => {
@@ -106,13 +119,14 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 						/>
 					</svg>
 					<ul className={styles.chatMessages}>
-						{conversation.map((message) =>
+						{conversation.map((message, index) =>
 							message.messageOf === "user" ? (
-								<ChatBubble text={message.message} />
+								<ChatBubble key={index} text={message.message} />
 							) : (
-								<MessageContent text={message.message} />
+								<MessageContent key={index} text={message.message} />
 							),
 						)}
+						<li ref={endOfMessagesRef} />
 					</ul>
 				</section>
 				<section className={styles.prompt}>
@@ -163,8 +177,8 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 					</div>
 
 					<ul className={styles.tagContainer}>
-						{freqientlyAsked.map((ask) => (
-							<ButtonTag key={ask.length} ask={ask} />
+						{freqientlyAsked.map((ask, index) => (
+							<ButtonTag key={index} ask={ask} />
 						))}
 					</ul>
 				</section>
