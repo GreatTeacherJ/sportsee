@@ -6,7 +6,7 @@ import Footer from "@/app/composant/Footer/Footer";
 import WarppeProfil from "@/app/composant/WrapperProfile/WrapperProfile";
 import WarpperGraph from "@/app/composant/WarppeGraph/WarppeGraph";
 import WeekInfo from "@/app/composant/WeekInfo/WeekInfo";
-import CoachAi from "@/app/composant/coachAi/page";
+import ModaleAi from "@/app/composant/coachAi/ModaleAi/modaleAi";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -35,7 +35,7 @@ export default function Dashboard() {
 			</main>
 
 			<Footer />
-			{openCoach && <CoachAi onClose={onClose} />}
+			{openCoach && <ModaleAi onClose={onClose} />}
 		</div>
 	);
 }

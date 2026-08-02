@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --webpack",
+    "dev:all": "start \"SportSee\" cmd /k \"npm run dev\" && start \"P6JS-main\" cmd /k \"cd /d ..\\P6JS-main && yarn dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

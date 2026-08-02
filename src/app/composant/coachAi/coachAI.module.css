@@ -58,24 +58,27 @@
 }
 
 .chat {
-	flex: 1;
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	padding: 0px;
-	gap: 40px;
+	flex-direction: row; /* svg next to chatMessages */
+	align-items: stretch;
+	padding: 0px 50px;
+
 	width: 100%;
-	padding: 0 50px;
+	min-height: 0;
 }
 
 .chatMessages {
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
-	width: 100%;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	flex: 1;
+	min-width: 0; /* critical: allows shrinking in row direction now */
+	min-height: 0;
+	overflow-y: auto;
+	scrollbar-width: none;
 }
 
 .chatContainer {
@@ -83,7 +86,7 @@
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: flex-start;
-	padding: 20px 0px;
+	padding: 5px 0px;
 	gap: 16px;
 	height: auto;
 	width: 100%;
@@ -101,6 +104,7 @@
 	padding: 5px;
 	background: #f4320b;
 	border-radius: 21.0527px;
+	flex-shrink: 0;
 }
 
 .chat li svg,
@@ -223,15 +227,16 @@
 
 	margin: 0 auto;
 	width: 100%;
-	height: 20.46px;
+	height: auto;
 }
 
 .bassicMessage p {
+	flex: 1;
 	font-family: "Inter";
 	font-style: normal;
 	font-weight: 400;
 	font-size: 14px;
-
+	height: 15px;
 	color: #707070;
 }
 
@@ -251,7 +256,7 @@
 	align-items: flex-start;
 	padding: 0px 10px;
 	gap: 10px;
-
+	height: auto;
 	margin: 0 auto;
 	width: 100%;
 }

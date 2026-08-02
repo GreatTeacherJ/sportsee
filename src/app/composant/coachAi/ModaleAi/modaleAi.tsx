@@ -1,10 +1,80 @@
-import styles from "./coachAi.module.css";
+import styles from "../coachAi.module.css";
+import ChatBubble from "../ChatBubble/ChatBubble";
+import MessageContent from "../MessageContent/MessageContent";
+import ButtonTag from "../ButtonTag/ButtonTag";
+import freqientlyAsked from "../frequently_asked.json";
+import { useState, useEffect, useRef } from "react";
+import { Prompt } from "next/font/google";
 
 interface TypeModaleProps {
 	onClose: () => void;
 }
 
-export default function CoachAi({ onClose }: TypeModaleProps) {
+interface Conversation {
+	messageOf: "ai" | "user";
+	message: string;
+}
+
+type Prompt = Conversation[];
+
+export default function ModaleAi({ onClose }: TypeModaleProps) {
+	const [conversation, setConversation] = useState<Prompt>([]);
+	const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+	async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+		e.preventDefault();
+
+		const message = textAreaRef.current?.value;
+		if (message) {
+			console.log("reçu message : ", message);
+			const prompt: Conversation = { messageOf: "user", message: message };
+
+			setConversation((conversation) => [...conversation, prompt]);
+			console.log("conversation : ", conversation);
+
+			//Pour tester
+			const response: Conversation = {
+				messageOf: "ai",
+				message: "Voici ma superbe reponse de la mort qui tue",
+			};
+			setConversation((conversation) => [...conversation, response]);
+
+			console.log("conversation : ", conversation);
+
+			try {
+				// verify this is valid in your client component context
+			} catch (error) {
+				// catches network failures and JSON parsing errors
+				console.error("Login failed:", error);
+			}
+		} else {
+			return;
+		}
+
+		if (textAreaRef.current) {
+			textAreaRef.current.value = "";
+		}
+	}
+
+	useEffect(() => {
+		console.log(conversation);
+	}, [conversation]);
+
+	useEffect(() => {
+		// lock page scroll (html + body) while modal is mounted
+		const { body, documentElement } = document;
+		const originalBody = body.style.overflow;
+		const originalHtml = documentElement.style.overflow;
+		body.style.overflow = "hidden";
+		documentElement.style.overflow = "hidden";
+
+		// cleanup: restore original overflow when modal unmounts
+		return () => {
+			body.style.overflow = originalBody;
+			documentElement.style.overflow = originalHtml;
+		};
+	}, []); // empty deps: runs once on mount, cleanup runs once on unmount
+
 	return (
 		<div className={styles.overlay}>
 			<dialog className={styles.modaleChat} open>
@@ -15,28 +85,6 @@ export default function CoachAi({ onClose }: TypeModaleProps) {
 					</button>
 				</header>
 				<section className={styles.chat} aria-label="Conversation">
-					<ul className={styles.chatMessages}>
-						<li className={styles.chatContainer}>
-							<div className={styles.chatBubble}>
-								<p>Que signifie mon score de récupération ?</p>
-							</div>
-							<img src="/images/avatar.png" alt="" />
-						</li>
-						<li className={styles.responseAi}>
-							<div className={styles.messageContainer}>
-								<p>Coach Ai</p>
-								<div className={styles.messageContent}>
-									<p>
-										Votre score de récupération indique à quel point
-										votre corps a récupéré après vos précédents
-										entraînements.
-										<br />
-										...
-									</p>
-								</div>
-							</div>
-						</li>
-					</ul>
 					<svg
 						width="16"
 						height="18"
@@ -57,6 +105,15 @@ export default function CoachAi({ onClose }: TypeModaleProps) {
 							fill="#FCC1B6"
 						/>
 					</svg>
+					<ul className={styles.chatMessages}>
+						{conversation.map((message) =>
+							message.messageOf === "user" ? (
+								<ChatBubble text={message.message} />
+							) : (
+								<MessageContent text={message.message} />
+							),
+						)}
+					</ul>
 				</section>
 				<section className={styles.prompt}>
 					<div className={styles.promptEnter}>
@@ -75,12 +132,14 @@ export default function CoachAi({ onClose }: TypeModaleProps) {
 							</svg>
 							<p>Comment puis-je vous aider ! </p>
 						</div>
-						<form className={styles.containerImput}>
+						<form className={styles.containerImput} onSubmit={handleSubmit}>
 							<textarea
+								name="prompt"
 								className={styles.inputPrompt}
 								placeholder="Écrivez votre message..."
 								rows={2}
 								aria-label="Votre message"
+								ref={textAreaRef}
 							></textarea>
 							<button
 								className={styles.validPrompt}
@@ -102,22 +161,11 @@ export default function CoachAi({ onClose }: TypeModaleProps) {
 							</button>
 						</form>
 					</div>
+
 					<ul className={styles.tagContainer}>
-						<li className={styles.tag}>
-							<button type="button">
-								Comment améliorer mon endurance ?
-							</button>
-						</li>
-						<li className={styles.tag}>
-							<button type="button">
-								Que signifie mon score de récupération ?
-							</button>
-						</li>
-						<li className={styles.tag}>
-							<button type="button">
-								Peux-tu m'expliquer mon dernier graphique ?
-							</button>
-						</li>
+						{freqientlyAsked.map((ask) => (
+							<ButtonTag key={ask.length} ask={ask} />
+						))}
 					</ul>
 				</section>
 			</dialog>
