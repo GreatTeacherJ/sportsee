@@ -56,7 +56,7 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 					setIsFirstMessage(false);
 				}
 
-				if (typeof response !== "string" && !response) {
+				if (typeof response !== "string") {
 					setConversation((conversation) => [
 						...conversation,
 						{
