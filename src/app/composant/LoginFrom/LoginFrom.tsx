@@ -14,11 +14,12 @@ export default function LoginFrom() {
 		e.preventDefault();
 
 		const form = new FormData(e.currentTarget);
-		//const userName = form.get("username");
-		//const password = form.get("password");
+		const userName = form.get("username");
+		const password = form.get("password");
 
-		const password = "password789";
-		const userName = "emmaleroy";
+		//for test
+		//const password = "password789";
+		//const userName = "emmaleroy";
 
 		try {
 			const response = await fetch("http://localhost:8000/api/login", {
