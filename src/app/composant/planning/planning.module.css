@@ -1,0 +1,68 @@
+.calendarAi {
+	/* calendar AI */
+
+	/* Mise en page automatique */
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 40px 250px;
+	gap: 10px;
+
+	width: 100%;
+
+	background: #ffffff;
+	/* cards hover */
+	box-shadow: 0px 4px 54px -18px rgba(157, 167, 251, 0.6);
+	border-radius: 10px;
+}
+
+.container {
+	/* Frame 2630 */
+
+	/* Mise en page automatique */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0px;
+	gap: 29px;
+}
+
+.container h2 {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 600;
+	font-size: 28px;
+	line-height: 34px;
+	text-align: center;
+
+	color: #000000;
+}
+
+.container p {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 17px;
+	text-align: center;
+
+	color: #000000;
+}
+
+.container button {
+	/* Button */
+
+	/* Mise en page automatique */
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 16px 40px;
+	gap: 10px;
+
+	width: 174px;
+	height: 51px;
+
+	background: #0b23f4;
+	border-radius: 10px;
+}

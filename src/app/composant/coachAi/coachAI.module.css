@@ -62,9 +62,28 @@
 	flex-direction: row; /* svg next to chatMessages */
 	align-items: stretch;
 	padding: 0px 50px;
-
+	position: relative; /* establishes positioning context for absolutely positioned children */
 	width: 100%;
 	min-height: 0;
+}
+
+.dotsContainer {
+	display: flex;
+	gap: 4px;
+	flex-shrink: 0;
+	align-items: flex-end;
+
+	position: absolute; /* removed from normal flex flow, won't push siblings */
+
+	left: 85px; /* aligns roughly where the svg sits (matches .chat's horizontal padding) */
+	bottom: 0; /* pins it to the bottom, matching the svg's margin-top:auto behavior */
+}
+
+.dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%; /* makes the span a perfect circle */
+	background-color: #fcc1b6;
 }
 
 .chatMessages {
@@ -79,6 +98,18 @@
 	min-height: 0;
 	overflow-y: auto;
 	scrollbar-width: none;
+}
+
+.chatMessages li h1 {
+	display: flex;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+	line-height: 27px;
+	text-align: center;
+	align-items: flex-start;
+	color: #0b23f4;
 }
 
 .chatContainer {

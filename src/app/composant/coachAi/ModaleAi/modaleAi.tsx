@@ -4,7 +4,6 @@ import MessageContent from "../MessageContent/MessageContent";
 import ButtonTag from "../ButtonTag/ButtonTag";
 import freqientlyAsked from "../frequently_asked.json";
 import { useState, useEffect, useRef } from "react";
-import { Prompt } from "next/font/google";
 import { contextApi, useContexteAPI } from "@/contexts/context";
 import { getPrompt } from "@/utils/utilsAi";
 
@@ -26,20 +25,36 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 	const { userActivity } = useContexteAPI(contextApi);
 	//point vers la fin de la converstion pour scroller automatiquement
 	const endOfMessagesRef = useRef<HTMLLIElement>(null);
+	const [isFirstMessage, setIsFirstMessage] = useState(true);
 
-	async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+	function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault();
+		const message = textAreaRef.current?.value;
+		if (message) {
+			voidCoach(message);
+			if (textAreaRef.current) {
+				textAreaRef.current.value = "";
+			}
+		}
+	}
+
+	async function voidCoach(message: string) {
+		setisLoading(true);
+
 		try {
-			const message = textAreaRef.current?.value;
 			if (message) {
-				console.log("reçu message : ", message);
 				const prompt: Conversation = { messageOf: "user", message: message };
 
 				setConversation((conversation) => [...conversation, prompt]);
-				console.log("conversation : ", conversation);
+				console.log("Taille de la conversation : ", conversation.length);
+				const response = await getPrompt(
+					message,
+					isFirstMessage ? userActivity : null,
+				);
 
-				const response = await getPrompt(message, userActivity);
-				console.log("reponse reçu : ", response);
+				if (isFirstMessage) {
+					setIsFirstMessage(false);
+				}
 
 				if (typeof response !== "string" && !response) {
 					setConversation((conversation) => [
@@ -59,12 +74,16 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 				return;
 			}
 		} catch (error) {
-			// catches network failures and JSON parsing errors
-			console.error("Login failed:", error);
-		}
-
-		if (textAreaRef.current) {
-			textAreaRef.current.value = "";
+			console.error("AI request failed:", error);
+			setConversation((conversation) => [
+				...conversation,
+				{
+					messageOf: "ai",
+					message: "Une erreur est survenue veuillez réessayer...",
+				},
+			]);
+		} finally {
+			setisLoading(false); // guaranteed to run whether success or failure
 		}
 	}
 
@@ -87,6 +106,26 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 			documentElement.style.overflow = originalHtml;
 		};
 	}, []); // empty deps: runs once on mount, cleanup runs once on unmount
+
+	//useeffect et satte pour l'animation de l'icone
+	const [dotCount, setDotCount] = useState(0);
+	const [isLoading, setisLoading] = useState<boolean>(false);
+
+	useEffect(() => {
+		// If not loading, reset dots and do nothing else
+		if (!isLoading) {
+			setDotCount(0);
+			return;
+		}
+
+		// Start an interval that cycles the dot count every 500ms
+		const intervalId = setInterval(() => {
+			setDotCount((prev) => (prev + 1) % 4); // loops 0 -> 1 -> 2 -> 3 -> 0
+		}, 500);
+
+		// Cleanup: clear interval when isLoading becomes false or component unmounts
+		return () => clearInterval(intervalId);
+	}, [isLoading]);
 
 	return (
 		<div className={styles.overlay}>
@@ -118,7 +157,22 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 							fill="#FCC1B6"
 						/>
 					</svg>
+					{isLoading && (
+						<div className={styles.dotsContainer}>
+							{Array.from({ length: dotCount }).map((_, index) => (
+								<span key={index} className={styles.dot} />
+							))}
+						</div>
+					)}
 					<ul className={styles.chatMessages}>
+						{conversation.length < 1 && (
+							<li>
+								<h1>
+									Posez vos questions sur votre programme, vos
+									performances ou vos objectifs
+								</h1>
+							</li>
+						)}
 						{conversation.map((message, index) =>
 							message.messageOf === "user" ? (
 								<ChatBubble key={index} text={message.message} />
@@ -178,7 +232,7 @@ export default function ModaleAi({ onClose }: TypeModaleProps) {
 
 					<ul className={styles.tagContainer}>
 						{freqientlyAsked.map((ask, index) => (
-							<ButtonTag key={index} ask={ask} />
+							<ButtonTag key={index} ask={ask} voidCoach={voidCoach} />
 						))}
 					</ul>
 				</section>

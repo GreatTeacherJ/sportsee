@@ -9,7 +9,7 @@ interface Response {
 
 export default function MessageContent({ text }: Response) {
 	// in MessageContent.tsx, temporarily
-	console.log(JSON.stringify(text));
+
 	return (
 		<li className={styles.responseAi}>
 			<div className={styles.messageContainer}>

@@ -7,8 +7,6 @@ export async function getPrompt(
 	UserActivity: TypeUserActivity | null,
 ): Promise<string | undefined> {
 	try {
-		console.log("debut du lancement de testeRoute");
-		console.log("envoie de la requette sur : ", BASE_URL);
 		const response = await fetch(`${BASE_URL}/api/new-prompt`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -20,7 +18,7 @@ export async function getPrompt(
 		}
 
 		const data = await response.text();
-		console.log("reponse de la fontion : ", data);
+
 		return data;
 	} catch (err) {
 		console.error("Error in testeRoute", err);
