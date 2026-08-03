@@ -1,0 +1,396 @@
+.modaleChat {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* offset by half its own size */
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 22px 33px;
+	gap: 40px;
+	background: #ffffff;
+
+	justify-content: space-between;
+	margin: 0;
+	border: none;
+	width: 60%;
+	height: 80vh;
+
+	border-radius: 20px;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex; /* activates flexbox */
+	align-items: center; /* centers .content vertically */
+	justify-content: center; /* centers .content horizontally */
+}
+
+.headerContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	align-self: flex-end;
+	padding: 0px;
+	width: auto;
+	height: auto;
+}
+
+.headerContainer button {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	padding: 0 5px;
+	text-align: center;
+
+	color: #707070;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.chat {
+	display: flex;
+	flex-direction: row; /* svg next to chatMessages */
+	align-items: stretch;
+	padding: 0px 50px;
+	position: relative; /* establishes positioning context for absolutely positioned children */
+	width: 100%;
+	min-height: 0;
+}
+
+.dotsContainer {
+	display: flex;
+	gap: 4px;
+	flex-shrink: 0;
+	align-items: flex-end;
+
+	position: absolute; /* removed from normal flex flow, won't push siblings */
+
+	left: 85px; /* aligns roughly where the svg sits (matches .chat's horizontal padding) */
+	bottom: 0; /* pins it to the bottom, matching the svg's margin-top:auto behavior */
+}
+
+.dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%; /* makes the span a perfect circle */
+	background-color: #fcc1b6;
+}
+
+.chatMessages {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	flex: 1;
+	min-width: 0; /* critical: allows shrinking in row direction now */
+	min-height: 0;
+	overflow-y: auto;
+	scrollbar-width: none;
+}
+
+.chatMessages li h1 {
+	display: flex;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+	line-height: 27px;
+	text-align: center;
+	align-items: flex-start;
+	color: #0b23f4;
+}
+
+.chatContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: flex-start;
+	padding: 5px 0px;
+	gap: 16px;
+	height: auto;
+	width: 100%;
+}
+
+.chat svg,
+.chat img {
+	display: flex;
+	align-items: flex-end;
+	width: 32px;
+	height: 32px;
+	margin-top: auto;
+	mix-blend-mode: normal;
+	border-radius: 999px;
+	padding: 5px;
+	background: #f4320b;
+	border-radius: 21.0527px;
+	flex-shrink: 0;
+}
+
+.chat li svg,
+.chat li img {
+	background: transparent;
+}
+
+.chatBubble {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 14px 20px;
+	gap: 8px;
+	max-width: 80%;
+	background: rgba(252, 193, 182, 0.5);
+	border-radius: 20px 20px 0px 20px;
+}
+
+.chatBubble p {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+
+	color: #111111;
+}
+
+.responseAi {
+	display: flex;
+
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 16px;
+	width: 100%;
+	height: auto;
+}
+
+.responseAi svg,
+.responseAi img {
+	display: flex;
+	width: 32px;
+	height: 32px;
+	align-items: flex-end;
+	background: rgba(154, 206, 243, 0.2);
+	mix-blend-mode: normal;
+	border: 1px solid rgba(145, 166, 182, 0.2);
+	border-radius: 999px;
+}
+
+.messageContainer {
+	display: flex;
+
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 4px;
+	max-width: 600px;
+}
+
+.messageContainer p {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	color: #707070;
+}
+
+.messageContent {
+	display: flex;
+	flex-direction: column; /* stack paragraphs, lists, etc. vertically */
+	align-items: flex-start; /* keep text aligned left instead of centered */
+	padding: 14px 20px;
+	gap: 10px;
+	color: #111111;
+	max-width: 600px;
+
+	background: #e7e7e7;
+	border-radius: 20px 20px 20px 0px;
+}
+
+/*Config markdown for response Ai*/
+.messageContent p {
+	margin: 0; /* remove default browser margin between paragraphs */
+}
+
+.messageContent strong {
+	font-weight: 600;
+	color: #333; /* make bold text stand out from the base gray */
+}
+
+.messageContent ul,
+.messageContent ol {
+	margin: 0;
+	padding-left: 20px; /* indent list markers */
+}
+
+.messageContent li {
+	margin-bottom: 4px;
+}
+
+.messageContent h1,
+.messageContent h2,
+.messageContent h3 {
+	font-size: 14px; /* keep headings proportionate to chat bubble text */
+	font-weight: 600;
+	margin: 4px 0;
+}
+/*========================================================*/
+
+.prompt {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+	padding: 0, 50px;
+	width: 100%;
+	height: 257px;
+}
+
+.promptEnter {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 16px;
+	gap: 7px;
+
+	width: 100%;
+	height: 139px;
+
+	border: 1px solid #e7e7e7;
+	/* cards hover */
+	box-shadow: 0px 4px 54px -18px rgba(157, 167, 251, 0.6);
+	border-radius: 8px;
+}
+
+.bassicMessage {
+	/* Frame 2623 */
+
+	/* Mise en page automatique */
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0px;
+	gap: 16px;
+
+	margin: 0 auto;
+	width: 100%;
+	height: auto;
+}
+
+.bassicMessage p {
+	flex: 1;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	height: 15px;
+	color: #707070;
+}
+
+.bassicMessage svg,
+.bassicMessage img {
+	width: 19px;
+	height: 20.46px;
+}
+
+.containerImput {
+	/* Frame 2617 */
+
+	/* Mise en page automatique */
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: flex-start;
+	padding: 0px 10px;
+	gap: 10px;
+	height: auto;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.inputPrompt {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+
+	color: black;
+	border: none;
+	outline: none;
+	background: transparent;
+	resize: none;
+	flex: 1;
+}
+
+.validPrompt {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 16px;
+	gap: 10px;
+
+	width: 48px;
+	height: 48px;
+
+	background: #0b23f4;
+	border-radius: 10px;
+	border: none;
+	cursor: pointer;
+}
+
+.tagContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	padding: 0px;
+	gap: 13px;
+
+	width: 100%;
+	height: auto;
+	list-style: none;
+	margin: 0;
+}
+
+.tag {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 24px 16px 40px;
+	gap: 10px;
+
+	width: auto;
+	height: auto;
+
+	background: #f2f3ff;
+	border-radius: 8px;
+
+	border: none;
+	cursor: pointer;
+}
+
+.tag button {
+	border: none;
+	background-color: transparent;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+
+	color: #707070;
+}

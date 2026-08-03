@@ -1,6 +1,6 @@
 // scripts/create-page.js
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 // get the route name from command line arguments (e.g. "node scripts/create-page.js login")
 const routeName = process.argv[2];
@@ -10,7 +10,7 @@ if (!routeName) {
 	process.exit(1);
 }
 
-const dirPath = path.join(__dirname, "..", "src", "app", "composant", routeName);
+const dirPath = path.join(import.meta.dirname, "..", "src", "app", "composant", routeName);
 
 // create the directory if it doesn't exist yet
 fs.mkdirSync(dirPath, { recursive: true });

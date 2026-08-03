@@ -6,23 +6,38 @@ import Footer from "@/app/composant/Footer/Footer";
 import WarppeProfil from "@/app/composant/WrapperProfile/WrapperProfile";
 import WarpperGraph from "@/app/composant/WarppeGraph/WarppeGraph";
 import WeekInfo from "@/app/composant/WeekInfo/WeekInfo";
+import ModaleAi from "@/app/composant/coachAi/ModaleAi/modaleAi";
+import { useState } from "react";
+import Planning from "@/app/composant/planning/planning";
 
 export default function Dashboard() {
+	const [openCoach, setOpenCoach] = useState<boolean>(false);
+
+	function onClose() {
+		setOpenCoach(false);
+	}
+
+	function onOpen() {
+		setOpenCoach(true);
+	}
+
 	return (
 		<div className={styles.page}>
 			<main className={styles.main}>
 				<Header />
 				{/* Conversation prompt banner and header profil */}
-				<WarppeProfil />
+				<WarppeProfil onOpen={onOpen} />
 
 				{/* Recent performances section */}
 				<WarpperGraph />
 
 				{/* Weekly summary section */}
 				<WeekInfo />
+				<Planning />
 			</main>
 
 			<Footer />
+			{openCoach && <ModaleAi onClose={onClose} />}
 		</div>
 	);
 }

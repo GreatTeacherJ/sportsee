@@ -45,3 +45,4 @@ AllUserActivity.json
 mock.json
 README-API.md
 teste.ts
+src/utils/testeAPI.tsx

@@ -1,9 +1,14 @@
-import styles from "@/app/composant/WrapperProfile/WrapperProfile.module.css";
+﻿import styles from "@/app/composant/WrapperProfile/WrapperProfile.module.css";
+import Image from "next/image";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import { useContexteAPI, contextApi } from "@/contexts/context";
-import { getStatUserActivity } from "@/utils/utilsAPI";
+import { getStatUserActivity } from "@/utils/utilsApi";
 
-export default function WarppeProfil() {
+interface TypeModaleProps {
+	onOpen: () => void;
+}
+
+export default function WarppeProfil({ onOpen }: TypeModaleProps) {
 	const { statistics, userActivity } = useContexteAPI(contextApi);
 
 	if (!statistics) {
@@ -46,9 +51,9 @@ export default function WarppeProfil() {
 						objectifs.
 					</p>
 				</div>
-				<a href="/coach-ai" className={styles.conversationButton}>
+				<button className={styles.conversationButton} onClick={onOpen}>
 					Lancer une conversation
-				</a>
+				</button>
 			</article>
 
 			{/* User profile card */}
@@ -58,7 +63,7 @@ export default function WarppeProfil() {
 				<p className={styles.distanceLabel}>Distance totale parcourue</p>
 
 				<div className={styles.distanceBadge}>
-					<img src="/images/OUTLINE.png" alt="icone" />
+					<Image src="/images/OUTLINE.png" alt="icone" width={34} height={34} />
 					<span className={styles.distanceValue}>
 						{totalDistances.toFixed(2)} km
 					</span>

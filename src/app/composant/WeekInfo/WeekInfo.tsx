@@ -16,7 +16,7 @@ export default function WeekInfo() {
 				{/* Stats cards */}
 				<div className={styles.statsColumn}>
 					<div className={styles.statCard}>
-						<p className={styles.statLabel}>Durée d'activité</p>
+						<p className={styles.statLabel}>Durée d&apos;activité</p>
 						<p>
 							<span
 								className={styles.statValue}
